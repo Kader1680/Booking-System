@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: pg-database
+    restart: always
+    environment:
+      POSTGRES_USER: Abderraouf
+      POSTGRES_PASSWORD: raoufroofa200
+      POSTGRES_DB: AtypikHouse
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
