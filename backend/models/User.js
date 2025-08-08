@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     gender: {
       type: DataTypes.STRING,
     },
+    
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user'  
+    }
   });
 
   // Associations

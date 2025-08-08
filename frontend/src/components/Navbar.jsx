@@ -4,12 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdminRole, setisAdminRole] = useState(false);
+  
   const navigate = useNavigate();
 
-  // Check token on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
+  }, []);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user")).data;
+    if (user?.role === "admin") {
+      setisAdminRole(true);
+      
+    }
   }, []);
 
   const handleLogout = () => {
@@ -22,7 +31,17 @@ export default function Navbar() {
     <>
       <Link to="/" className="hover:text-indigo-600">Home</Link>
       <Link to="/rooms" className="hover:text-indigo-600">Booking</Link>
-      <Link to="/admin/analytics" className="hover:text-indigo-600">Dashboard</Link>
+     
+       {isAdminRole ? (
+        <>
+          <Link to="/admin/analytics" className="hover:text-indigo-600">Dashboard</Link>
+
+        </>
+      ) : (
+        <></>
+      )}
+
+
       {isAuthenticated ? (
         <>
           <Link to="/profile" className="hover:text-indigo-600">Profile</Link>
@@ -42,12 +61,10 @@ export default function Navbar() {
             <Link to="/" className="text-xl font-bold text-indigo-600">RoomBook</Link>
           </div>
 
-          {/* Desktop Links */}
           <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
             <NavLinks />
           </div>
 
-          {/* Mobile Toggle */}
           <div className="md:hidden">
             <button
               type="button"

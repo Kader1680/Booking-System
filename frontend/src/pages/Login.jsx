@@ -28,6 +28,8 @@ function Login() {
         throw new Error(data.message || "Login failed");
       }
  
+
+      
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data));
 

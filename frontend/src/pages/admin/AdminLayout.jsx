@@ -1,9 +1,17 @@
 // src/components/admin/AdminLayout.jsx
 import { Link, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function AdminLayout() {
+  const user = JSON.parse(localStorage.getItem("user")).data;
+
+  if (!user || user.role !== "admin") {
+    return <Navigate to="/" replace />;
+  }
+
   return (
     <div className="flex min-h-screen">
+
       <aside className="w-64 bg-gray-800 text-white p-4 space-y-4">
         <h2 className="text-xl font-bold">Admin</h2>
         <nav className="space-y-2">
@@ -17,4 +25,5 @@ export default function AdminLayout() {
       </main>
     </div>
   );
+  
 }

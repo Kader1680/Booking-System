@@ -38,17 +38,28 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
+
+
+
 // Get bookings of logged-in user
-router.get("/my", auth, async (req, res) => {
+router.get("/my-bookings", auth, async (req, res) => {
   try {
     const bookings = await Booking.findAll({
       where: { guestId: req.user.id },
-      include: [{ model: Room, as: "room" }],
+      include: [
+        {
+          model: Room,
+          attributes: ["id", "name", "price", "type"], // You can customize fields
+        },
+      ],
+      order: [["createdAt", "DESC"]],
     });
-    res.json(bookings);
-  } catch (err) {
-    console.error("Get bookings error:", err);
-    res.status(500).send("Server error");
+
+    res.json({ bookings });
+    alert("Bookings fetched successfully");
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    res.status(500).json({ msg: "Server error" });
   }
 });
 

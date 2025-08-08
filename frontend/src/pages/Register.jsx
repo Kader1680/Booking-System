@@ -30,7 +30,7 @@ function Register() {
         alert("Registration successful!");
         // Optionally save token or navigate:
         // localStorage.setItem("token", data.token);
-        window.location.href = "/profile"; // Redirect to profile or login page
+        window.location.href = "/login"; // Redirect to profile or login page
       } else {
         alert(data.msg || "Registration failed");
       }

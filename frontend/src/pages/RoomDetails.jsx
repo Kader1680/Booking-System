@@ -86,18 +86,18 @@ const handleBooking = async () => {
         {/* Left: Room Info */}
         <div>
           <img
-            src={room.imageUrl}
+            src={`http://localhost:5000${room.imageUrl}`} 
             alt={room.title}
             className="rounded-lg w-full h-72 object-cover"
           />
-          <h2 className="text-3xl font-bold mt-4">{room.title}</h2>
-          <p className="text-gray-600 mt-2">{room.description}</p>
+          <h2 className="text-3xl font-bold mt-4">Title : {room.title}</h2>
+          <p className="text-gray-600 mt-2">Description : {room.description}</p>
 
           <div className="mt-4 space-y-1 text-sm text-gray-700">
-            <p><strong>Size:</strong> {room.size || "N/A"}</p>
-            <p><strong>Capacity:</strong> {room.capacity || "N/A"} guest(s)</p>
+            {/* <p><strong>Size:</strong> {room.size || "N/A"}</p> */}
+            {/* <p><strong>Capacity:</strong> {room.capacity || "N/A"} guest(s)</p>
             <p><strong>Bed Type:</strong> {room.bedType || "Standard"}</p>
-            <p><strong>Amenities:</strong> {room.amenities?.join(", ") || "N/A"}</p>
+            <p><strong>Amenities:</strong> {room.amenities?.join(", ") || "N/A"}</p> */}
             <p className="text-sm mt-1 text-gray-500">
               <strong>Availability:</strong>{" "}
               {room.availability ? (

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState} from "react";
 import axios from "axios";
-
+  
 export default function CreateRoom() {
+
+ 
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -9,6 +11,8 @@ export default function CreateRoom() {
     availability: "available",
     image: null,
   });
+
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -51,7 +55,7 @@ export default function CreateRoom() {
         image: null,
       });
       if (res) {
-        alert("created room")
+        window.location.href = "/rooms";
       }
     } catch (error) {
       console.error("Room creation failed:", error);
