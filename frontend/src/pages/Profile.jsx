@@ -1,103 +1,93 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-export default function Profile() {
+const Profile = () => {
   const [user, setUser] = useState(null);
-  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-       //const id = JSON.parse(localStorage.getItem("user")).user.id
-
-        const res = await axios.get("/api/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setUser(res.data);
-        setBookings(res.data.Bookings || []);
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
+    axios.get('http://localhost:5000/api/profile', {
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-    };
+    })
+    .then(res => {
+      console.log('Profile data:', res.data);
+      setUser(res.data);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error('Profile load error:', err);
+      setError('Failed to load profile. Please try again.');
+      setLoading(false);
+      if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    });
+  }, [navigate]);
 
-    fetchProfile();
-  }, []);
-
-  if (!user) return <p className="text-center py-10">Loading profile...</p>;
+  if (loading) return <div className="text-center mt-10">Loading...</div>;
+  if (error) return <div className="text-center mt-10 text-red-500">{error}</div>;
+  if (!user) return <div className="text-center mt-10 text-red-500">No profile data available.</div>;
 
   return (
-    <section className="bg-gray-50 min-h-screen py-10">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">My Profile</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Sidebar */}
-          <div className="bg-white shadow rounded-lg p-6 flex flex-col items-center text-center">
-            <img
-              src={`https://i.pravatar.cc/150?u=${user.id}`}
-              alt={user.name}
-              className="w-24 h-24 rounded-full mb-4 object-cover"
-            />
-            <h3 className="text-xl font-semibold text-gray-800">{user.name}</h3>
-            <p className="text-gray-500 text-sm">{user.email}</p>
-            <p className="text-gray-500 text-sm">{user.gender}</p>
-
-            <div className="mt-6 space-y-2 w-full">
-              <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-500">
-                Edit Profile
-              </button>
-              <button
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  window.location.href = "/login";
-                }}
-                className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-400"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-
-          {/* Bookings */}
-          <div className="md:col-span-2 bg-white shadow rounded-lg p-6">
-            <h4 className="text-lg font-semibold text-gray-800 mb-4">My Bookings</h4>
-            {bookings.length > 0 ? (
-              <ul className="space-y-4">
-                {bookings.map((b) => (
-                  <li
-                    key={b.id}
-                    className="border rounded p-4 flex flex-col sm:flex-row justify-between sm:items-center"
-                  >
-                    <div>
-                      <h5 className="font-semibold text-gray-700">{b.Room?.title || "Unknown Room"}</h5>
-                      <p className="text-sm text-gray-500">
-                        {b.checkIn} → {b.checkOut}
-                      </p>
-                    </div>
-                    <div className="text-right sm:text-left mt-2 sm:mt-0">
-                      <p className="text-indigo-600 font-semibold">${b.price}</p>
-                      <span
-                        className={`text-sm px-2 py-1 rounded ${
-                          b.status === "Confirmed"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-700"
-                        }`}
-                      >
-                        {b.status}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-center text-gray-500">You have no bookings yet.</p>
-            )}
-          </div>
+    <div className="max-w-4xl mx-auto mt-10 px-4">
+      <h1 className="text-3xl font-bold mb-6 text-center">Profile</h1>
+      
+      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
+        <div className="space-y-2">
+          <p><span className="font-medium">Name:</span> {user.name}</p>
+          <p><span className="font-medium">Email:</span> {user.email}</p>
+          {user.gender && <p><span className="font-medium">Gender:</span> {user.gender}</p>}
         </div>
       </div>
-    </section>
+
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-xl font-semibold mb-4">My Bookings</h2>
+        {user.Bookings && user.Bookings.length > 0 ? (
+          <div className="space-y-4">
+            {user.Bookings.map(booking => (
+              <div key={booking.id} className="border-b pb-4 last:border-b-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="font-medium">Room: {booking.Room?.name || 'Unknown Room'}</p>
+                    <p>Type: {booking.Room?.type || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p>Check-in: {new Date(booking.checkIn).toLocaleDateString()}</p>
+                    <p>Check-out: {new Date(booking.checkOut).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                <div className="mt-2">
+                  <span className={`px-2 py-1 rounded text-sm ${
+                    booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                    booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                    'bg-gray-100 text-gray-800'
+                  }`}>
+                    {booking.status || 'Confirmed'}
+                  </span>
+                  <p className="mt-1 font-medium">Total: ${booking.totalPrice?.toFixed(2) || '0.00'}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No bookings found.</p>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default Profile;

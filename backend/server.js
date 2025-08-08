@@ -10,7 +10,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
-// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 // Synchronize all models with the database
 db.sequelize.sync({ alter: true }).then(() => {
@@ -21,14 +21,13 @@ db.sequelize.sync({ alter: true }).then(() => {
 
 // Import Routes
 const authRoutes = require('./routes/auth');
-const propertyRoutes = require('./routes/properties');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require("./routes/room");
+const profileRoutes = require("./routes/profile");
  
 
 // Use Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/properties', propertyRoutes);
 app.use('/api/bookings', bookingRoutes);
 
 
@@ -41,9 +40,15 @@ app.use("/api/bookings", bookingRoutes);
 
  
 
-const PORT = process.env.PORT || 5000;
-app.use('/api/profile', require('./routes/profile'));
+
+app.use('/api/profile', profileRoutes);
 app.use('/api/rooms', require('./routes/room'));
+
+app.use('/api/analytics', require('./routes/dashboardAnalytics'));
+
+const PORT = process.env.PORT || 5000;
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

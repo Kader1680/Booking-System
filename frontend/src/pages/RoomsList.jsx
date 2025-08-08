@@ -619,15 +619,20 @@ const [price, setPrice] = useState(500);
           <p className="text-gray-500 col-span-full text-center">No rooms available.</p>
         ) : (
           rooms.map((room) => (
-            <Link key={room.id} to={`/rooms/${room.id}`}>
+            <Link key={room.id} to={`/rooms/${room.id}`} >
               <div className="bg-white shadow rounded-lg overflow-hidden">
+            
+            
                 <img
-                  src={`http://localhost:5000/uploads/${room.imageUrl}`} // c
-                  alt={room.title}
+                   src={`http://localhost:5000${room.imageUrl}`} /// c
+                  alt={ room.title}
                   className="w-full h-48 object-cover"
                 />
+
+
+
                 <div className="p-5">
-                  <h3 className="text-xl font-semibold text-gray-800">{room.title}</h3>
+                  <h3 className="text-xl font-semibold text-gray-800">{room.title} </h3>
                   <p className="mt-2 text-gray-600 text-sm truncate">{room.description}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-yellow-500 font-semibold">⭐ 4.5</span>

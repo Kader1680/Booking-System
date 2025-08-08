@@ -13,7 +13,7 @@ import RoomDetails from './pages/RoomDetails';
 import AdminLayout from './pages/admin/AdminLayout';
 import CreateRoom from './pages/admin/rooms/create';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
-import UsersList from './pages/admin/UsersList';
+import HomePage from './pages/HomePage';
 
 
 
@@ -35,11 +35,11 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/rooms" element={<RoomsList />} />
+        <Route path="/" element={<HomePage />} />
        
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminLayout />} >
             <Route path="rooms/create" element={<CreateRoom />} />
-            <Route path="users" element={<UsersList />} />
             <Route path="analytics" element={<AdminAnalytics />} />
         </Route> 
 

@@ -8,7 +8,7 @@ export default function AdminLayout() {
         <h2 className="text-xl font-bold">Admin</h2>
         <nav className="space-y-2">
           <Link to="rooms/create" className="block hover:text-indigo-400">Create Rooms</Link>
-          <Link to="/admin/users" className="block hover:text-indigo-400">Users</Link>
+           
           <Link to="/admin/analytics" className="block hover:text-indigo-400">Analytics</Link>
         </nav>
       </aside>
