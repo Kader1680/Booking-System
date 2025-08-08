@@ -51,6 +51,10 @@ const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
 
 
+
+const paymentRoutes = require("./routes/payment");
+app.use("/api/payment", paymentRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 

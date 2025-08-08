@@ -12,7 +12,6 @@ export default function RoomDetails() {
   const [isBooked, setIsBooked] = useState(false);
   const [error, setError] = useState("");
 
- 
   // Fetch room from API
   useEffect(() => {
     const fetchRoom = async () => {
@@ -73,9 +72,13 @@ const handleBooking = async () => {
 
     setError("");
     setIsBooked(true);
+    navigate("/payment", { state: { amount: totalPrice } });
+   
   } catch (err) {
     console.error("Booking failed:", err.response?.data || err.message);
-    setError("Booking failed. Please try again.");
+    window.location.href = '/login';
+    
+    
   }
 };
 
@@ -150,17 +153,16 @@ const handleBooking = async () => {
             Confirm Booking
           </button>
 
-          {isBooked && (
-            <div className="mt-4 text-green-600 font-semibold">
-              Booking confirmed! Proceed to payment:
-              <button
-                onClick={() => navigate("/stripe")}
-                className="block mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-400"
-              >
-                Pay Now
-              </button>
-            </div>
-          )}
+          {
+            
+            isBooked ?
+            navigate("/payment", { state: { amount: totalPrice } })
+            : <h1>sorry is some problème</h1>
+        }
+
+
+
+        
         </div>
       </div>
     </div>

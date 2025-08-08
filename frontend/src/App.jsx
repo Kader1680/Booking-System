@@ -14,6 +14,7 @@ import AdminLayout from './pages/admin/AdminLayout';
 import CreateRoom from './pages/admin/rooms/create';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
 import HomePage from './pages/HomePage';
+import CheckoutForm from './pages/Payment';
 
 
 
@@ -36,6 +37,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/rooms" element={<RoomsList />} />
         <Route path="/" element={<HomePage />} />
+    
+        <Route path="/payment" element={<CheckoutForm />} />
        
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminLayout />} >

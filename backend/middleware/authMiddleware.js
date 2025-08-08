@@ -15,5 +15,6 @@ module.exports = function (req, res, next) {
   } catch (err) {
     console.error("JWT verification failed:", err.message);
     res.status(401).json({ msg: 'Token is not valid or expired' });
+    
   }
 };
