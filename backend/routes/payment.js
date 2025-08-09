@@ -1,10 +1,10 @@
 // backend/routes/payment.js
 const express = require("express");
 const Stripe = require("stripe");
-const Payment = require("../models/Payement"); // <-- Import your Sequelize or Mongoose model
+const Payment = require("../models/Payement"); 
 const router = express.Router();
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // put in .env
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY); 
 
 router.post("/", async (req, res) => {
   try {

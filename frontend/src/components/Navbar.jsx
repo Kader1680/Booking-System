@@ -17,7 +17,6 @@ export default function Navbar() {
     const user = JSON.parse(localStorage.getItem("user")).data;
     if (user?.role === "admin") {
       setisAdminRole(true);
-      
     }
   }, []);
 
@@ -29,26 +28,24 @@ export default function Navbar() {
 
   const NavLinks = () => (
     <>
-      <Link to="/" className="hover:text-indigo-600">Home</Link>
-      <Link to="/rooms" className="hover:text-indigo-600">Booking</Link>
+      <Link to="/" className="hover:text-indigo-600">Accueil</Link>
+      <Link to="/rooms" className="hover:text-indigo-600">Réservations</Link>
      
-       {isAdminRole ? (
+       {isAdminRole && isAuthenticated ? (
         <>
-          <Link to="/admin/analytics" className="hover:text-indigo-600">Dashboard</Link>
-
+          <Link to="/admin/analytics" className="hover:text-indigo-600">Tableau de bord</Link>
         </>
       ) : (
         <></>
       )}
 
-
       {isAuthenticated ? (
         <>
-          <Link to="/profile" className="hover:text-indigo-600">Profile</Link>
-          <button onClick={handleLogout} className="hover:text-red-600">Logout</button>
+          <Link to="/profile" className="hover:text-indigo-600">Profil</Link>
+          <button onClick={handleLogout} className="hover:text-red-600">Déconnexion</button>
         </>
       ) : (
-        <Link to="/login" className="hover:text-indigo-600">Login</Link>
+        <Link to="/login" className="hover:text-indigo-600">Connexion</Link>
       )}
     </>
   );
@@ -58,7 +55,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-xl font-bold text-indigo-600">RoomBook</Link>
+            <Link to="/" className="text-xl font-bold text-indigo-600">Atypikhouse</Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-700">
@@ -88,7 +85,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Links */}
+      {/* Liens Mobile */}
       {isOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
           <NavLinks />

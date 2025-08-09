@@ -27,16 +27,14 @@ function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Registration successful!");
-        // Optionally save token or navigate:
-        // localStorage.setItem("token", data.token);
-        window.location.href = "/login"; // Redirect to profile or login page
+        alert("Inscription réussie !");
+        window.location.href = "/login";
       } else {
-        alert(data.msg || "Registration failed");
+        alert(data.msg || "Échec de l'inscription");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong!");
+      console.error("Erreur :", error);
+      alert("Une erreur est survenue !");
     }
   };
 
@@ -44,7 +42,7 @@ function Register() {
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
-          Create your account
+          Créez votre compte
         </h2>
       </div>
 
@@ -52,7 +50,7 @@ function Register() {
         <form onSubmit={handleRegister} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-900">
-              Full Name
+              Nom complet
             </label>
             <input
               id="name"
@@ -69,7 +67,7 @@ function Register() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-              Email address
+              Adresse e-mail
             </label>
             <input
               id="email"
@@ -86,7 +84,7 @@ function Register() {
 
           <div>
             <label htmlFor="gender" className="block text-sm font-medium text-gray-900">
-              Gender
+              Genre
             </label>
             <select
               id="gender"
@@ -98,16 +96,16 @@ function Register() {
                          outline outline-1 outline-gray-300 focus:outline-2 
                          focus:outline-indigo-600 sm:text-sm"
             >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="">Sélectionnez votre genre</option>
+              <option value="male">Homme</option>
+              <option value="female">Femme</option>
+              <option value="other">Autre</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-900">
-              Password
+              Mot de passe
             </label>
             <input
               id="password"
@@ -129,7 +127,7 @@ function Register() {
                          text-sm font-semibold text-white shadow hover:bg-indigo-500 
                          focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
             >
-              Register
+              S'inscrire
             </button>
 
             <a
@@ -138,7 +136,7 @@ function Register() {
                          px-3 py-1.5 text-sm font-semibold bg-white shadow 
                          hover:bg-indigo-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"
             >
-              Login
+              Se connecter
             </a>
           </div>
         </form>

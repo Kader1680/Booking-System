@@ -1,9 +1,7 @@
-import { useState} from "react";
+import { useState } from "react";
 import axios from "axios";
   
 export default function CreateRoom() {
-
- 
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -11,8 +9,6 @@ export default function CreateRoom() {
     availability: "available",
     image: null,
   });
-
-
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -39,14 +35,12 @@ export default function CreateRoom() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post("http://localhost:5000/api/rooms", roomData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-
-       
       setForm({
         title: "",
         description: "",
@@ -58,24 +52,24 @@ export default function CreateRoom() {
         window.location.href = "/rooms";
       }
     } catch (error) {
-      console.error("Room creation failed:", error);
-      alert("Error creating room.");
+      console.error("Échec de la création de la chambre :", error);
+      alert("Erreur lors de la création de la chambre.");
     }
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create New Room</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Créer une nouvelle chambre</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1 text-gray-700 font-medium">Room Title</label>
+          <label className="block mb-1 text-gray-700 font-medium">Titre de la chambre</label>
           <input
             type="text"
             name="title"
             value={form.title}
             onChange={handleChange}
-            placeholder="Deluxe Suite"
+            placeholder="Suite Deluxe"
             className="w-full border border-gray-300 px-4 py-2 rounded"
             required
           />
@@ -87,14 +81,14 @@ export default function CreateRoom() {
             name="description"
             value={form.description}
             onChange={handleChange}
-            placeholder="Room description..."
+            placeholder="Description de la chambre..."
             className="w-full border border-gray-300 px-4 py-2 rounded h-24"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-1 text-gray-700 font-medium">Price per Night ($)</label>
+          <label className="block mb-1 text-gray-700 font-medium">Prix par nuit (€)</label>
           <input
             type="number"
             name="price"
@@ -106,20 +100,20 @@ export default function CreateRoom() {
         </div>
 
         <div>
-          <label className="block mb-1 text-gray-700 font-medium">Availability</label>
+          <label className="block mb-1 text-gray-700 font-medium">Disponibilité</label>
           <select
             name="availability"
             value={form.availability}
             onChange={handleChange}
             className="w-full border border-gray-300 px-4 py-2 rounded"
           >
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
+            <option value="available">Disponible</option>
+            <option value="unavailable">Indisponible</option>
           </select>
         </div>
 
         <div>
-          <label className="block mb-1 text-gray-700 font-medium">Room Image</label>
+          <label className="block mb-1 text-gray-700 font-medium">Image de la chambre</label>
           <input
             type="file"
             name="image"
@@ -133,7 +127,7 @@ export default function CreateRoom() {
           type="submit"
           className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-500"
         >
-          Save Room
+          Enregistrer la chambre
         </button>
       </form>
     </div>
