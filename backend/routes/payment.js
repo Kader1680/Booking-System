@@ -4,7 +4,7 @@ const Stripe = require("stripe");
 const Payment = require("../models/Payement"); 
 const router = express.Router();
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); 
+// const stripe = Stripe(process.env.STRIPE_SECRET_KEY); 
 
 router.post("/", async (req, res) => {
   try {
