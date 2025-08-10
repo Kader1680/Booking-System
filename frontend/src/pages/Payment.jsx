@@ -10,8 +10,9 @@ import {
 } from "@stripe/react-stripe-js";
 
 
-// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
+// const stripePromise = loadStripe("pk_test_51RQSuF2cB4lBl3ihucMN1y5kyZCFt9Yyu2bDguUzY7wAUEud8aPCZXA7j2mPHYIgcySi68PqBMgmHiPnVrs2E46Q00fOiq1fYA"); 
 
 function CheckoutForm({ amount }) {
   const stripe = useStripe();
