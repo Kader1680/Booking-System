@@ -9,7 +9,6 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 const db = {};
 
-db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Import models
@@ -19,8 +18,8 @@ db.Room = require('./Room')(sequelize, DataTypes);
  
  
 
-db.User.hasMany(db.Booking, { foreignKey: 'guestId', as: 'bookings' });
-db.Booking.belongsTo(db.User, { foreignKey: 'guestId', as: 'guest' });
+db.User.hasMany(db.Booking, { foreignKey: 'guestId',  targetKey: 'id' });
+db.Booking.belongsTo(db.User, { foreignKey: 'guestId',  targetKey: 'id' });
  
 // Room <-> Booking
 db.Room.hasMany(db.Booking, { foreignKey: 'roomId', as: 'bookings' });

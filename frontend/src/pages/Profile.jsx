@@ -1,12 +1,11 @@
-// src/pages/ProfilePage.jsx
 import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
 
-  console.log("Token dans le localStorage :", localStorage.getItem("token"));
+  console.log("Token in localStorage:", localStorage.getItem("token"));
   console.log(
-    "Authorization header :",
+    "Authorization header:",
     `Bearer ${localStorage.getItem("token")}`
   );
 
@@ -16,68 +15,70 @@ export default function ProfilePage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Données du profil depuis l'API :", data);
+        console.log("Profile data from API:", data);
         setProfile(data);
       })
-      .catch((err) => console.error("Erreur lors du chargement du profil :", err));
+      .catch((err) => console.error("Error loading profile:", err));
   }, []);
 
-  if (!profile) return <p>Chargement...</p>;
+  if (!profile) return <p>Loading...</p>;
 
   return (
     <div className="p-6 space-y-6">
-      {/* Infos utilisateur */}
+      {/* User Info */}
       <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-2">Informations du profil</h2>
+        <h2 className="text-xl font-bold mb-2">Profile Information</h2>
         <p>
-          <strong>Nom :</strong> {profile.name}
+          <strong>Name:</strong> {profile.name}
         </p>
         <p>
-          <strong>Email :</strong> {profile.email}
+          <strong>Email:</strong> {profile.email}
         </p>
         <p>
-          <strong>Sexe :</strong> {profile.gender}
+          <strong>Gender:</strong> {profile.gender}
         </p>
         <p>
-          <strong>Membre depuis :</strong>{" "}
-          {new Date(profile.createdAt).toLocaleDateString("fr-FR")}
+          <strong>Member since:</strong>{" "}
+          {new Date(profile.createdAt).toLocaleDateString("en-US")}
         </p>
       </div>
 
-      {/* Réservations */}
+
       <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-xl font-bold mb-2">Mes réservations</h2>
+        <h2 className="text-xl font-bold mb-2">My Bookings 
+        
+        {/* {profile.booking.length > 0 ? ` (${profile.Bookings.length})` : ""} */}
+        
+         </h2>
         {profile.Bookings && profile.Bookings.length > 0 ? (
           <table className="w-full border border-gray-200">
             <thead className="bg-gray-100">
               <tr>
-                <th className="p-2 border">Chambre</th>
-                <th className="p-2 border">Lieu</th>
-                <th className="p-2 border">Prix</th>
-                <th className="p-2 border">Arrivée</th>
-                <th className="p-2 border">Départ</th>
-              </tr>
+                <th className="p-2 border">Room</th>
+                <th className="p-2 border">Price</th>
+                <th className="p-2 border">Check-in</th>
+                <th className="p-2 border">Check-out</th>
+               </tr>
             </thead>
             <tbody>
               {profile.Bookings.map((booking) => (
                 <tr key={booking.id} className="hover:bg-gray-50">
-                  <td className="p-2 border">{booking.Room?.name}</td>
-                  <td className="p-2 border">{booking.Room?.location}</td>
+                  <td className="p-2 border">{booking?.roomId}</td>
                   <td className="p-2 border">
-                    {booking.Room?.price} € / nuit
+                    {booking?.totalPrice} € / night
                   </td>
                   <td className="p-2 border">
-                    {new Date(booking.checkIn).toLocaleDateString("fr-FR")}
+                    {new Date(booking.checkIn).toLocaleDateString("en-US")}
                   </td>
                   <td className="p-2 border">
-                    {new Date(booking.checkOut).toLocaleDateString("fr-FR")}
+                    {new Date(booking.checkOut).toLocaleDateString("en-US")}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <p>Vous n'avez pas encore de réservations.</p>
+          <p>You have no bookings yet.</p>
         )}
       </div>
     </div>
