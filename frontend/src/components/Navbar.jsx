@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdminRole, setisAdminRole] = useState(false);
-  
+  const [isAdminRole, setIsAdminRole] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,9 +14,12 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user")).data;
-    if (user?.role === "admin") {
-      setisAdminRole(true);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser).data;
+      if (user?.role === "admin") {
+        setIsAdminRole(true);
+      }
     }
   }, []);
 
@@ -28,24 +31,22 @@ export default function Navbar() {
 
   const NavLinks = () => (
     <>
-      <Link to="/" className="hover:text-indigo-600">Accueil</Link>
-      <Link to="/rooms" className="hover:text-indigo-600">Réservations</Link>
-     
-       {isAdminRole && isAuthenticated ? (
-        <>
-          <Link to="/admin/analytics" className="hover:text-indigo-600">Tableau de bord</Link>
-        </>
-      ) : (
-        <></>
+      <Link to="/" className="hover:text-indigo-600">Home</Link>
+      <Link to="/rooms" className="hover:text-indigo-600">Bookings</Link>
+
+      {isAdminRole && isAuthenticated && (
+        <Link to="/admin/analytics" className="hover:text-indigo-600">
+          Dashboard
+        </Link>
       )}
 
       {isAuthenticated ? (
         <>
-          <Link to="/profile" className="hover:text-indigo-600">Profil</Link>
-          <button onClick={handleLogout} className="hover:text-red-600">Déconnexion</button>
+          <Link to="/profile" className="hover:text-indigo-600">Profile</Link>
+          <button onClick={handleLogout} className="hover:text-red-600">Logout</button>
         </>
       ) : (
-        <Link to="/login" className="hover:text-indigo-600">Connexion</Link>
+        <Link to="/login" className="hover:text-indigo-600">Login</Link>
       )}
     </>
   );
@@ -85,7 +86,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Liens Mobile */}
+      {/* Mobile Links */}
       {isOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-medium text-gray-700">
           <NavLinks />
